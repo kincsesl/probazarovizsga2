@@ -31,6 +31,7 @@ class Charter():
         self.neve = self.driver.find_element_by_xpath("/html/body/form/div[1]/div[3]/ul/li[1]/input")
         self.emil = self.driver.find_element_by_xpath("/html/body/form/div[1]/div[3]/ul/li[2]/input")
         self.szoveg = self.driver.find_element_by_xpath("/html/body/form/div[1]/div[3]/ul/li[3]/textarea")
+        self.hibaszoveg = self.driver.find_elements_by_xpath("/html/body/form/div[1]/div[3]/ul/li[2]/span")
         self.submintgomb = self.driver.find_element_by_xpath("/html/body/form/div[1]/div[3]/ul/li[4]/button")
 
     def kiolvas4(self):
@@ -51,13 +52,17 @@ def test_teszteld_csak(emilje):  # Csak az emil megy paraméterként át.
     neve = randomstring.nev() + " " + randomstring.nev()
     charter.neve.send_keys(neve)
     charter.emil.send_keys(emilje)
-    charter.szoveg.send_keys(randomstring.name())
-    charter.submintgomb.click()
-    time.sleep(2)
-    charter.kiolvas4()
-    return charter.siker.text == elvarom
+    time.sleep(1)
+    hibas = len(charter.hibaszoveg)
+    if hibas == 0:
+        charter.szoveg.send_keys(randomstring.name())
+        charter.submintgomb.click()
+        time.sleep(2)
+        charter.kiolvas4()
+        return charter.siker.text == elvarom
+    else:
+        return charter.hibaszoveg[0].text == "PLEASE ENTER A VALID EMAIL ADDRESS."
     charter.driver.close()
-
 
 # TC01 Jó adatokkal
 assert test_teszteld_csak(randomstring.emil())
