@@ -22,7 +22,7 @@ class FilmRegister():
         for self.i in self.mezoidk:
             self.mezolista.append(self.driver.find_element_by_id(self.i))
 
-    def kitolti(self, lista):
+    def kitolti(self, lista):  # A kívánt adatokkal kitölti az űrlapot.
         self.registergomb.click()
         time.sleep(1)
         for i in range(len(self.mezolista)):
@@ -30,7 +30,7 @@ class FilmRegister():
         self.savegomb.click()
 
     def ellenoriz(self, lista):
-        # self.filmek = self.driver.find_element_by_xpath("/html/body/div[2]/div[3]")
+        # Nem kell: self.filmek = self.driver.find_element_by_xpath("/html/body/div[2]/div[3]")
         self.filmlista = self.driver.find_elements_by_xpath("//h2[@class = 'center']")
         self.i = 0
         for self.film in self.filmlista:
